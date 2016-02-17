@@ -1,1 +1,2 @@
-include ':lib'
+include ':itstimetoact-core'
+include ':itstimetoact-serializable'

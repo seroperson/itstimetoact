@@ -2,7 +2,9 @@ package com.seroperson.itstimetoact.event;
 
 import android.util.SparseLongArray;
 
-public abstract class ActEvent {
+import java.io.Serializable;
+
+public abstract class ActEvent implements Serializable {
 
     private final String eventKey;
 
