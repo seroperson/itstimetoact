@@ -121,8 +121,12 @@ public abstract class TimeToAct {
         eventMap.put(event.getEventKey(), event);
     }
 
-    protected abstract Set<ActEvent> loadEventData(Context context);
+    protected Set<ActEvent> loadEventData(Context context) {
+        throw new UnsupportedOperationException();
+    }
 
-    protected abstract boolean storeEventData(Collection<ActEvent> eventSet, Context context);
+    protected boolean storeEventData(Collection<ActEvent> eventSet, Context context) {
+        throw new UnsupportedOperationException();
+    }
 
 }
