@@ -10,22 +10,16 @@ import java.util.*;
 public abstract class TimeToAct {
 
     private final Context context;
-    private final boolean autoSave;
     private final Map<String, ActEvent> eventMap = new HashMap<String, ActEvent>();
 
     public TimeToAct(Context context) {
-        this(context, true);
-    }
-
-    public TimeToAct(Context context, boolean autoSave) {
         if(context == null) {
             throw new IllegalArgumentException("");
         }
         this.context = context;
-        this.autoSave = autoSave;
     }
 
-    public void loadEventData() {
+    public final void loadEventData() {
         clear();
 
         Set<ActEvent> loadedSet = loadEventData(context);
@@ -34,12 +28,12 @@ public abstract class TimeToAct {
         }
     }
 
-    public boolean storeEventData() {
+    public final boolean storeEventData() {
         return storeEventData(eventMap.values(), context);
     }
 
-    public boolean watchEvent(ActEvent event) {
-        return watchEvent(event, autoSave);
+    public final boolean watchEvent(ActEvent event) {
+        return watchEvent(event, isNeedToAutoSave());
     }
 
     public boolean watchEvent(ActEvent event, boolean autoSave) {
@@ -47,8 +41,8 @@ public abstract class TimeToAct {
         return storeIfTrueWithResult(autoSave);
     }
 
-    public boolean removeEvent(Predicate<ActEvent> eventPredicate) {
-        return removeEvent(eventPredicate, autoSave);
+    public final boolean removeEvent(Predicate<ActEvent> eventPredicate) {
+        return removeEvent(eventPredicate, isNeedToAutoSave());
     }
 
     public boolean removeEvent(Predicate<ActEvent> eventPredicate, boolean autoSave) {
@@ -61,16 +55,16 @@ public abstract class TimeToAct {
         return result;
     }
 
-    public boolean removeEvent(String eventKey) {
-        return removeEvent(eventKey, autoSave);
+    public final boolean removeEvent(String eventKey) {
+        return removeEvent(eventKey, isNeedToAutoSave());
     }
 
     public boolean removeEvent(String eventKey, boolean autoSave) {
         return removeEvent(getEvent(eventKey), autoSave);
     }
 
-    public boolean removeEvent(ActEvent event) {
-        return removeEvent(event, autoSave);
+    public final boolean removeEvent(ActEvent event) {
+        return removeEvent(event, isNeedToAutoSave());
     }
 
     public boolean removeEvent(ActEvent event, boolean autoSave) {
@@ -78,7 +72,7 @@ public abstract class TimeToAct {
         return storeIfTrueWithResult(autoSave);
     }
 
-    public boolean clear() {
+    public final boolean clear() {
         return clear(true);
     }
 
@@ -87,19 +81,19 @@ public abstract class TimeToAct {
         return storeIfTrueWithResult(autoSave);
     }
 
-    public boolean isWatchingFor(String eventKey) {
+    public final boolean isWatchingFor(String eventKey) {
         return eventMap.containsKey(eventKey);
     }
 
-    public boolean isHappened(String eventKey) {
+    public final boolean isHappened(String eventKey) {
         return getEvent(eventKey).isHappened();
     }
 
-    public ActEvent getEvent(String eventKey) {
+    public final ActEvent getEvent(String eventKey) {
         return eventMap.get(eventKey);
     }
 
-    public Set<ActEvent> getEventSet(Predicate<ActEvent> eventPredicate) {
+    public final Set<ActEvent> getEventSet(Predicate<ActEvent> eventPredicate) {
         Set<ActEvent> result = new HashSet<ActEvent>();
         for(ActEvent event : eventMap.values()) {
             if(eventPredicate.apply(event)) {
@@ -119,6 +113,14 @@ public abstract class TimeToAct {
 
     private void putEvent(ActEvent event) {
         eventMap.put(event.getEventKey(), event);
+    }
+
+    protected Map<String, ActEvent> getEventMap() {
+        return eventMap;
+    }
+
+    protected boolean isNeedToAutoSave() {
+        return true;
     }
 
     protected Set<ActEvent> loadEventData(Context context) {

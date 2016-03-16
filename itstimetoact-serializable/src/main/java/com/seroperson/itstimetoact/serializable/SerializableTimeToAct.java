@@ -18,10 +18,6 @@ public class SerializableTimeToAct extends TimeToAct {
         super(context);
     }
 
-    public SerializableTimeToAct(Context context, boolean autoSave) {
-        super(context, autoSave);
-    }
-
     @Override
     protected Set<ActEvent> loadEventData(Context context) {
         File storage = getStorageFile(context);
