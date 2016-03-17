@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class GsonTimeToAct extends InFileTimeToAct {
 
-    private Gson gson = createGson(new GsonBuilder());
+    private final Gson gson = createGson(new GsonBuilder());
 
     public GsonTimeToAct(Context context) {
         super(context);
