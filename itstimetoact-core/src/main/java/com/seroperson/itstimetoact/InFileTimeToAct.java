@@ -6,7 +6,6 @@ import com.seroperson.itstimetoact.event.ActEvent;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

@@ -37,8 +37,7 @@ public abstract class TimeToAct {
     }
 
     public boolean watchEvent(ActEvent event, boolean autoSave) {
-        putEvent(event);
-        return storeIfTrueWithResult(autoSave);
+        return putEvent(event) && storeIfTrueWithResult(autoSave);
     }
 
     public final boolean removeEvent(Predicate<ActEvent> eventPredicate) {
@@ -111,8 +110,13 @@ public abstract class TimeToAct {
         return result;
     }
 
-    private void putEvent(ActEvent event) {
-        eventMap.put(event.getEventKey(), event);
+    private boolean putEvent(ActEvent event) {
+        String key = event.getEventKey();
+        if(!isWatchingFor(key)) {
+            eventMap.put(key, event);
+            return true;
+        }
+        return false;
     }
 
     protected Map<String, ActEvent> getEventMap() {
