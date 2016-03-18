@@ -1,4 +1,4 @@
-package com.seroperson.itstimetoact.event;
+package com.seroperson.itstimetoact.extras;
 
 public class OneShotEvent extends StepEvent {
 
