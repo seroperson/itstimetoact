@@ -9,6 +9,8 @@ import java.util.*;
 
 public abstract class TimeToAct {
 
+    public static final String UNDEF = "undefined";
+
     private final Context context;
     private final Map<String, ActEvent> eventMap = new HashMap<String, ActEvent>();
 
@@ -20,24 +22,24 @@ public abstract class TimeToAct {
     }
 
     public final void loadEventData() {
-        clear();
+        clear(false);
 
         Set<ActEvent> loadedSet = loadEventData(context);
         for(ActEvent event : loadedSet) {
-            putEvent(event);
+            putEvent(event, false);
         }
     }
 
     public final boolean storeEventData() {
-        return storeEventData(eventMap.values(), context);
+        return storeEventData(new HashSet<ActEvent>(eventMap.values()), context);
     }
 
-    public final boolean watchEvent(ActEvent event) {
+    public final <T extends ActEvent> T watchEvent(T event) {
         return watchEvent(event, isNeedToAutoSave());
     }
 
-    public boolean watchEvent(ActEvent event, boolean autoSave) {
-        return putEvent(event) && storeIfTrueWithResult(autoSave);
+    public <T extends ActEvent> T watchEvent(T event, boolean autoSave) {
+        return putEvent(event, autoSave);
     }
 
     public final boolean removeEvent(Predicate<ActEvent> eventPredicate) {
@@ -88,8 +90,8 @@ public abstract class TimeToAct {
         return getEvent(eventKey).isHappened();
     }
 
-    public final ActEvent getEvent(String eventKey) {
-        return eventMap.get(eventKey);
+    public final <T extends ActEvent> T getEvent(String eventKey) {
+        return (T) eventMap.get(eventKey);
     }
 
     public final Set<ActEvent> getEventSet(Predicate<ActEvent> eventPredicate) {
@@ -110,13 +112,17 @@ public abstract class TimeToAct {
         return result;
     }
 
-    private boolean putEvent(ActEvent event) {
+    private <T extends ActEvent> T putEvent(T event, boolean autoSave) {
         String key = event.getEventKey();
-        if(!isWatchingFor(key)) {
-            eventMap.put(key, event);
-            return true;
+        if(UNDEF.equals(key)) {
+            throw new IllegalArgumentException("");
         }
-        return false;
+        if(!isWatchingFor(key)) {
+            event.onInitialize(context);
+            eventMap.put(key, event);
+            storeIfTrueWithResult(autoSave); // TODO unhandled
+        }
+        return getEvent(key);
     }
 
     protected Map<String, ActEvent> getEventMap() {

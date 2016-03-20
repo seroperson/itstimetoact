@@ -1,5 +1,6 @@
 package com.seroperson.itstimetoact.event;
 
+import android.content.Context;
 import android.util.SparseLongArray;
 
 import java.io.Serializable;
@@ -13,6 +14,10 @@ public abstract class ActEvent implements Serializable {
             throw new IllegalArgumentException("");
         }
         this.eventKey = eventKey;
+    }
+
+    public void onInitialize(Context context) {
+
     }
 
     protected void receiveData(SparseLongArray data) {

@@ -2,9 +2,13 @@ package com.seroperson.itstimetoact.extras;
 
 import com.seroperson.itstimetoact.event.ActEvent;
 
-public class TimeEvent extends ActEvent {
+import java.io.Serializable;
 
-    private long targetDate;
+public class TimeEvent extends ActEvent implements Serializable {
+
+    private static final long serialVersionUID = 0L;
+
+    private final long targetDate;
 
     public TimeEvent(long targetDate, String eventKey) {
         super(eventKey);

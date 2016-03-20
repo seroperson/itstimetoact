@@ -1,9 +1,13 @@
 package com.seroperson.itstimetoact.extras;
 
-public class OneShotEvent extends StepEvent {
+import java.io.Serializable;
+
+public class OneShotEvent extends StepEvent implements Serializable {
+
+    private static final long serialVersionUID = 0L;
 
     public OneShotEvent(String eventKey) {
-        super(eventKey);
+        super(1, eventKey);
     }
 
 }

@@ -2,10 +2,14 @@ package com.seroperson.itstimetoact.extras;
 
 import com.seroperson.itstimetoact.event.ActEvent;
 
-public class StepEvent extends ActEvent {
+import java.io.Serializable;
 
+public class StepEvent extends ActEvent implements Serializable {
+
+    private static final long serialVersionUID = 0L;
+
+    private final int stepCount;
     private int remainingStepCount;
-    private int stepCount;
 
     public StepEvent(int stepCount, String eventKey) {
         super(eventKey);
@@ -19,6 +23,10 @@ public class StepEvent extends ActEvent {
 
     public int getRemainingStepCount() {
         return remainingStepCount;
+    }
+
+    public int step() {
+        return remainingStepCount > 0 ? --remainingStepCount : remainingStepCount;
     }
 
     @Override

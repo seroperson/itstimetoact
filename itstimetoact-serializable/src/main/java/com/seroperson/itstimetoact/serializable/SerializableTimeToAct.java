@@ -26,13 +26,16 @@ public class SerializableTimeToAct extends InFileTimeToAct {
                 result = (Set<ActEvent>) objectInputStream.readObject();
             } catch (FileNotFoundException e) {
                 // impossible
+                e.printStackTrace();
             } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             } finally {
                 if (objectInputStream != null) {
                     objectInputStream.close();
                 }
             }
         } catch (IOException e) {
+            e.printStackTrace();
         }
         return result;
     }
@@ -52,6 +55,7 @@ public class SerializableTimeToAct extends InFileTimeToAct {
                 }
             }
         } catch (IOException e) {
+            e.printStackTrace();
         }
         return false;
     }
