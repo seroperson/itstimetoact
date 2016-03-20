@@ -7,7 +7,7 @@ import android.content.Context;
 
 import java.util.*;
 
-public abstract class TimeToAct {
+public class TimeToAct {
 
     public static final String UNDEF = "undefined";
 
@@ -82,7 +82,7 @@ public abstract class TimeToAct {
     }
 
     public final boolean clear() {
-        return clear(true);
+        return clear(isNeedToAutoSave());
     }
 
     public boolean clear(boolean autoSave) {
@@ -142,7 +142,7 @@ public abstract class TimeToAct {
     }
 
     protected boolean isNeedToAutoSave() {
-        return true;
+        return false;
     }
 
     protected Set<ActEvent> loadEventData(Context context) {
