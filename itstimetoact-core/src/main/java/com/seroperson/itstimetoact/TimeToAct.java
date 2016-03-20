@@ -42,6 +42,14 @@ public abstract class TimeToAct {
         return putEvent(event, autoSave);
     }
 
+    public <T extends ActEvent> T forceWatchEvent(T event) {
+        return forceWatchEvent(event, isNeedToAutoSave());
+    }
+
+    public <T extends ActEvent> T forceWatchEvent(T event, boolean autoSave) {
+        return putEvent(event, autoSave, true);
+    }
+
     public final boolean removeEvent(Predicate<ActEvent> eventPredicate) {
         return removeEvent(eventPredicate, isNeedToAutoSave());
     }
@@ -113,11 +121,15 @@ public abstract class TimeToAct {
     }
 
     private <T extends ActEvent> T putEvent(T event, boolean autoSave) {
+        return putEvent(event, autoSave, false);
+    }
+
+    private <T extends ActEvent> T putEvent(T event, boolean autoSave, boolean overwrite) {
         String key = event.getEventKey();
         if(UNDEF.equals(key)) {
             throw new IllegalArgumentException("");
         }
-        if(!isWatchingFor(key)) {
+        if(overwrite || !isWatchingFor(key)) {
             event.onInitialize(context);
             eventMap.put(key, event);
             storeIfTrueWithResult(autoSave); // TODO unhandled
