@@ -1,7 +1,5 @@
 package com.seroperson.itstimetoact.gson;
 
-import android.content.Context;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -9,11 +7,9 @@ import com.google.gson.stream.JsonWriter;
 import com.seroperson.itstimetoact.InFileTimeToAct;
 import com.seroperson.itstimetoact.event.ActEvent;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import android.content.Context;
+
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.HashSet;

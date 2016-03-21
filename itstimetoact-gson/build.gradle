@@ -13,6 +13,7 @@ android {
 }
 
 dependencies {
+    testCompile "org.robolectric:robolectric:3.0"
     testCompile 'junit:junit:4.12'
     compile project(":itstimetoact-core")
     compile 'com.google.code.gson:gson:2.6.2'

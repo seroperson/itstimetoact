@@ -1,16 +1,15 @@
 package com.seroperson.itstimetoact;
 
-import android.os.Build;
-
 import com.android.internal.util.Predicate;
 import com.seroperson.itstimetoact.event.ActEvent;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
+
+import android.os.Build;
 
 import static junit.framework.Assert.*;
 
@@ -31,8 +30,8 @@ public class CoreTest {
     public void testCorrectWatching() {
         ActEvent first = timeToAct.watchEvent(new AlreadyHappened(KEY));
         assertTrue(timeToAct.isWatchingFor(KEY));
-        assertTrue(first == timeToAct.watchEvent(new AlreadyHappened(KEY)));
-        assertFalse(first == timeToAct.forceWatchEvent(new AlreadyHappened(KEY)));
+        assertSame(first, timeToAct.watchEvent(new AlreadyHappened(KEY)));
+        assertNotSame(first, timeToAct.forceWatchEvent(new AlreadyHappened(KEY)));
     }
 
     @Test
