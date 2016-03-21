@@ -4,6 +4,8 @@ import com.seroperson.itstimetoact.event.ActEvent;
 
 import java.io.Serializable;
 
+import static java.lang.System.*;
+
 public class TimeEvent extends ActEvent implements Serializable {
 
     private static final long serialVersionUID = 0L;
@@ -12,7 +14,7 @@ public class TimeEvent extends ActEvent implements Serializable {
 
     public TimeEvent(long targetDate, String eventKey) {
         super(eventKey);
-        this.targetDate = targetDate;
+        this.targetDate = currentTimeMillis() + targetDate;
     }
 
     public long getTargetDate() {
@@ -20,7 +22,7 @@ public class TimeEvent extends ActEvent implements Serializable {
     }
 
     public long getRemainingTime() {
-        return targetDate - System.currentTimeMillis(); // TODO switch to nanos?
+        return targetDate - currentTimeMillis(); // TODO switch to nanos?
     }
 
     @Override
