@@ -1,5 +1,7 @@
 package com.seroperson.itstimetoact.extras;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 
 import com.seroperson.itstimetoact.TimeToAct;
@@ -10,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
+import org.robolectric.res.builder.RobolectricPackageManager;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -44,6 +47,20 @@ public class ExtrasTest {
         Thread.sleep(half);
         assertFalse(event.isHappened());
         Thread.sleep(half);
+        assertTrue(event.isHappened());
+    }
+
+    @Test
+    public void testAfterUpdateEvent() throws PackageManager.NameNotFoundException {
+        Context context = RuntimeEnvironment.application;
+
+        AfterUpdateEvent event = timeToAct.watchEvent(new AfterUpdateEvent(context, KEY));
+        assertFalse(event.isHappened());
+
+        RobolectricPackageManager packageManager = RuntimeEnvironment.getRobolectricPackageManager();
+        packageManager.getPackageInfo(context.getPackageName(), 0).versionCode++;
+
+        timeToAct.forceWatchEvent(event); // reinitialize
         assertTrue(event.isHappened());
     }
 

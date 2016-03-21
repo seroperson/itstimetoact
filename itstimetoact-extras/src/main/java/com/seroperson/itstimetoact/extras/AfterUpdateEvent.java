@@ -12,14 +12,14 @@ public class AfterUpdateEvent extends ActEvent implements Serializable {
 
     private static final long serialVersionUID = 0L;
 
-    private final String savedVersion;
-    private String currentVersion;
+    private final int savedVersion;
+    private transient int currentVersion;
 
     public AfterUpdateEvent(Context context, String eventKey) {
         this(getApplicationVersion(context), eventKey);
     }
 
-    public AfterUpdateEvent(String savedVersion, String eventKey) {
+    private AfterUpdateEvent(int savedVersion, String eventKey) {
         super(eventKey);
         this.savedVersion = savedVersion;
     }
@@ -30,16 +30,20 @@ public class AfterUpdateEvent extends ActEvent implements Serializable {
         currentVersion = getApplicationVersion(context);
     }
 
-    public String getSavedVersion() {
+    protected int getCurrentVersion() {
+        return currentVersion;
+    }
+
+    public int getSavedVersion() {
         return savedVersion;
     }
 
     @Override
     public boolean isHappened() {
-        return savedVersion.equals(currentVersion);
+        return savedVersion < currentVersion;
     }
 
-    private static String getApplicationVersion(Context context) {
+    private static int getApplicationVersion(Context context) {
         PackageManager manager = context.getPackageManager();
         PackageInfo info = null;
         try {
@@ -47,7 +51,7 @@ public class AfterUpdateEvent extends ActEvent implements Serializable {
         } catch (PackageManager.NameNotFoundException e) {
             // impossible
         }
-        return info.versionName;
+        return info.versionCode;
     }
 
 }
