@@ -9,8 +9,6 @@ import java.util.*;
 
 public class TimeToAct {
 
-    public static final String UNDEF = "undefined";
-
     private final Context context;
     private final Map<String, ActEvent> eventMap = new HashMap<String, ActEvent>();
     private ActEvent lastDropped;
@@ -140,9 +138,6 @@ public class TimeToAct {
 
     private <T extends ActEvent> T putEvent(T event, boolean autoSave, boolean overwrite) {
         String key = event.getEventKey();
-        if(UNDEF.equals(key)) {
-            throw new IllegalArgumentException("");
-        }
         if(overwrite || !isWatchingFor(key)) {
             event.onInitialize(context);
             eventMap.put(key, event);
