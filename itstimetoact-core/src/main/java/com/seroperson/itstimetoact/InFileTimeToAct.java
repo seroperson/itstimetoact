@@ -3,13 +3,15 @@ package com.seroperson.itstimetoact;
 import com.seroperson.itstimetoact.event.ActEvent;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+import static com.seroperson.itstimetoact.Check.checkIsEmpty;
+import static com.seroperson.itstimetoact.Check.checkIsNull;
 
 public class InFileTimeToAct extends TimeToAct {
 
@@ -21,10 +23,7 @@ public class InFileTimeToAct extends TimeToAct {
 
     @Override
     protected Set<ActEvent> loadEventData(Context context) {
-        File storage = getStorageFile(context);
-        if(storage == null) {
-            throw new IllegalStateException("");
-        }
+        File storage = getNotNullStorageFile(context);
         if(!storage.exists()/* || isEmpty(storage)*/) {
             return new HashSet<ActEvent>();
         }
@@ -37,10 +36,7 @@ public class InFileTimeToAct extends TimeToAct {
 
     @Override
     protected boolean storeEventData(Collection<ActEvent> eventSet, Context context) {
-        File storage = getStorageFile(context);
-        if(storage == null) {
-            throw new IllegalStateException("");
-        }
+        File storage = getNotNullStorageFile(context);
         if(!storage.exists()) {
             try {
                 storage.createNewFile();
@@ -61,10 +57,18 @@ public class InFileTimeToAct extends TimeToAct {
 
     protected File getStorageFile(Context context) {
         String storageName = getFilename();
-        if(storageName == null || TextUtils.isEmpty(storageName)) {
-            throw new IllegalStateException("");
+        if(checkIsEmpty(storageName)) { // TODO more checks?
+            throw new IllegalStateException("InFileTimeToAct#getFilename() returned empty or null string");
         }
         return new File(context.getFilesDir().getPath().concat(File.separator).concat(storageName));
+    }
+
+    private File getNotNullStorageFile(Context context) {
+        File storage = getStorageFile(context);
+        if(checkIsNull(storage)) {
+            throw new IllegalStateException("InFileTimeToAct#getStorageFile(Context) returned null");
+        }
+        return storage;
     }
 
 }

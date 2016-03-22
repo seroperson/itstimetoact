@@ -1,18 +1,17 @@
 package com.seroperson.itstimetoact.event;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import java.io.Serializable;
+
+import static com.seroperson.itstimetoact.Check.checkArgumentNotEmpty;
 
 public abstract class ActEvent implements Serializable {
 
     private final String eventKey;
 
     public ActEvent(String eventKey) {
-        if(eventKey == null || TextUtils.isEmpty(eventKey)) {
-            throw new IllegalArgumentException("");
-        }
+        checkArgumentNotEmpty(eventKey, "eventKey is empty or null");
         this.eventKey = eventKey;
     }
 

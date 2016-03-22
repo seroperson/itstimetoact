@@ -7,6 +7,8 @@ import android.content.Context;
 
 import java.util.*;
 
+import static com.seroperson.itstimetoact.Check.*;
+
 public class TimeToAct {
 
     private final Context context;
@@ -14,9 +16,7 @@ public class TimeToAct {
     private ActEvent lastDropped;
 
     public TimeToAct(Context context) {
-        if(context == null) {
-            throw new IllegalArgumentException("");
-        }
+        checkArgumentNotNull(context, "context == null");
         this.context = context;
     }
 
@@ -24,8 +24,8 @@ public class TimeToAct {
         clear(false);
 
         Set<ActEvent> loadedSet = loadEventData(context);
-        if(loadedSet == null) {
-            throw new IllegalStateException("");
+        if(checkIsNull(loadedSet)) {
+            throw new IllegalStateException("TimeToAct#loadEventData(Context) returned null");
         }
         for(ActEvent event : loadedSet) {
             putEvent(event, false);
@@ -70,9 +70,7 @@ public class TimeToAct {
     }
 
     public boolean removeEvent(Predicate<ActEvent> eventPredicate, boolean autoSave) {
-        if(eventPredicate == null) {
-            throw new IllegalArgumentException("");
-        }
+        checkArgumentNotNull(eventPredicate, "eventPredicate == null");
         boolean result = true;
         for(ActEvent event : eventMap.values()) {
             if(eventPredicate.apply(event)) {
@@ -82,23 +80,24 @@ public class TimeToAct {
         return result;
     }
 
-    public final boolean removeEvent(String eventKey) {
-        return removeEvent(eventKey, isNeedToAutoSave());
-    }
-
-    public boolean removeEvent(String eventKey, boolean autoSave) {
-        return removeEvent(getEvent(eventKey), autoSave);
-    }
-
     public final boolean removeEvent(ActEvent event) {
         return removeEvent(event, isNeedToAutoSave());
     }
 
     public boolean removeEvent(ActEvent event, boolean autoSave) {
-        if(event == null) {
-            throw new IllegalArgumentException("");
+        checkArgumentNotNull(event, "event == null");
+        return removeEvent(event.getEventKey(), autoSave);
+    }
+
+    public final boolean removeEvent(String eventKey) {
+        return removeEvent(eventKey, isNeedToAutoSave());
+    }
+
+    public boolean removeEvent(String eventKey, boolean autoSave) {
+        if(!isWatchingFor(eventKey)) {
+            throw new IllegalArgumentException("There is no event with such key: "+eventKey);
         }
-        eventMap.remove(event.getEventKey());
+        eventMap.remove(eventKey);
         return storeIfTrueWithResult(autoSave);
     }
 
@@ -112,36 +111,23 @@ public class TimeToAct {
     }
 
     public final boolean isWatchingFor(String eventKey) {
-        if(eventKey == null) {
-            throw new IllegalArgumentException("");
-        }
+        checkArgumentNotEmpty(eventKey, "eventKey is empty or null");
         return eventMap.containsKey(eventKey);
     }
 
     public final boolean isHappened(String eventKey) {
-        if(eventKey == null) {
-            throw new IllegalArgumentException("");
-        }
-        if(!isWatchingFor(eventKey)) {
-            throw new IllegalArgumentException("");
-        }
         return getEvent(eventKey).isHappened();
     }
 
     public final <T extends ActEvent> T getEvent(String eventKey) {
-        if(eventKey == null) {
-            throw new IllegalArgumentException("");
-        }
         if(!isWatchingFor(eventKey)) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("There is no event with such key: "+eventKey);
         }
         return (T) eventMap.get(eventKey);
     }
 
     public final Set<ActEvent> getEventSet(Predicate<ActEvent> eventPredicate) {
-        if(eventPredicate == null) {
-            throw new IllegalArgumentException("");
-        }
+        checkArgumentNotNull(eventPredicate, "eventPredicate == null");
         Set<ActEvent> result = new HashSet<ActEvent>();
         for(ActEvent event : eventMap.values()) {
             if(eventPredicate.apply(event)) {
@@ -164,9 +150,7 @@ public class TimeToAct {
     }
 
     private <T extends ActEvent> T putEvent(T event, boolean autoSave, boolean overwrite) {
-        if(event == null) {
-            throw new IllegalArgumentException("");
-        }
+        checkArgumentNotNull(event, "event == null");
         String key = event.getEventKey();
         if(overwrite || !isWatchingFor(key)) {
             event.onInitialize(context);

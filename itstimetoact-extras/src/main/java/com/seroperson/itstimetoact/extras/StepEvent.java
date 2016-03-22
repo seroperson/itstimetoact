@@ -14,7 +14,7 @@ public class StepEvent extends ActEvent implements Serializable {
     public StepEvent(int stepCount, String eventKey) {
         super(eventKey);
         if(stepCount < 0) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("stepCount < 0");
         }
         this.stepCount = stepCount;
         this.remainingStepCount = stepCount;

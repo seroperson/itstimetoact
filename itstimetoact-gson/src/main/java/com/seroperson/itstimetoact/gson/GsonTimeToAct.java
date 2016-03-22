@@ -15,6 +15,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.seroperson.itstimetoact.Check.checkIsNull;
+
 public class GsonTimeToAct extends InFileTimeToAct {
 
     private final static Type defaultType = new TypeToken<Set<ActEvent>>() { }.getType();
@@ -23,8 +25,8 @@ public class GsonTimeToAct extends InFileTimeToAct {
     public GsonTimeToAct(Context context) {
         super(context);
         GsonBuilder builder = createGsonBuilder(new GsonBuilder());
-        if(builder == null) {
-            throw new IllegalStateException("");
+        if(checkIsNull(builder)) {
+            throw new IllegalStateException("GsonTimeToAct#createGsonBuilder returned null");
         }
         gson = builder.create();
     }

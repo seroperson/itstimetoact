@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 
 import java.io.Serializable;
 
+import static com.seroperson.itstimetoact.Check.checkArgumentNotNull;
+
 public class AfterUpdateEvent extends ActEvent implements Serializable {
 
     private static final long serialVersionUID = 0L;
@@ -44,9 +46,7 @@ public class AfterUpdateEvent extends ActEvent implements Serializable {
     }
 
     private static int getApplicationVersion(Context context) {
-        if(context == null) {
-            throw new IllegalArgumentException("");
-        }
+        checkArgumentNotNull(context, "context == null");
         PackageManager manager = context.getPackageManager();
         PackageInfo info = null;
         try {
