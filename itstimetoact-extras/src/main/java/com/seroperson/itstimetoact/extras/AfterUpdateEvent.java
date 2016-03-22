@@ -1,10 +1,10 @@
 package com.seroperson.itstimetoact.extras;
 
+import com.seroperson.itstimetoact.event.ActEvent;
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-
-import com.seroperson.itstimetoact.event.ActEvent;
 
 import java.io.Serializable;
 
@@ -30,7 +30,7 @@ public class AfterUpdateEvent extends ActEvent implements Serializable {
         currentVersion = getApplicationVersion(context);
     }
 
-    protected int getCurrentVersion() {
+    public int getCurrentVersion() {
         return currentVersion;
     }
 

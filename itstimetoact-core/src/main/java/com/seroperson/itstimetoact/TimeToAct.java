@@ -13,6 +13,7 @@ public class TimeToAct {
 
     private final Context context;
     private final Map<String, ActEvent> eventMap = new HashMap<String, ActEvent>();
+    private ActEvent lastDropped;
 
     public TimeToAct(Context context) {
         if(context == null) {
@@ -48,6 +49,19 @@ public class TimeToAct {
 
     public <T extends ActEvent> T forceWatchEvent(T event, boolean autoSave) {
         return putEvent(event, autoSave, true);
+    }
+
+    public boolean watchLastDropped(String key) {
+        return watchLastDropped(key, isNeedToAutoSave());
+    }
+
+    public boolean watchLastDropped(String key, boolean autoSave) {
+        if(lastDropped != null && lastDropped.getEventKey().equals(key)) {
+            forceWatchEvent(lastDropped, autoSave);
+            lastDropped = null;
+            return true;
+        }
+        return false;
     }
 
     public final boolean removeEvent(Predicate<ActEvent> eventPredicate) {
@@ -133,6 +147,9 @@ public class TimeToAct {
             event.onInitialize(context);
             eventMap.put(key, event);
             storeIfTrueWithResult(autoSave); // TODO unhandled
+        }
+        else {
+            lastDropped = event;
         }
         return getEvent(key);
     }
