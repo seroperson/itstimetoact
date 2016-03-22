@@ -24,6 +24,9 @@ public class TimeToAct {
         clear(false);
 
         Set<ActEvent> loadedSet = loadEventData(context);
+        if(loadedSet == null) {
+            throw new IllegalStateException("");
+        }
         for(ActEvent event : loadedSet) {
             putEvent(event, false);
         }
@@ -67,6 +70,9 @@ public class TimeToAct {
     }
 
     public boolean removeEvent(Predicate<ActEvent> eventPredicate, boolean autoSave) {
+        if(eventPredicate == null) {
+            throw new IllegalArgumentException("");
+        }
         boolean result = true;
         for(ActEvent event : eventMap.values()) {
             if(eventPredicate.apply(event)) {
@@ -89,6 +95,9 @@ public class TimeToAct {
     }
 
     public boolean removeEvent(ActEvent event, boolean autoSave) {
+        if(event == null) {
+            throw new IllegalArgumentException("");
+        }
         eventMap.remove(event.getEventKey());
         return storeIfTrueWithResult(autoSave);
     }
@@ -103,18 +112,36 @@ public class TimeToAct {
     }
 
     public final boolean isWatchingFor(String eventKey) {
+        if(eventKey == null) {
+            throw new IllegalArgumentException("");
+        }
         return eventMap.containsKey(eventKey);
     }
 
     public final boolean isHappened(String eventKey) {
+        if(eventKey == null) {
+            throw new IllegalArgumentException("");
+        }
+        if(!isWatchingFor(eventKey)) {
+            throw new IllegalArgumentException("");
+        }
         return getEvent(eventKey).isHappened();
     }
 
     public final <T extends ActEvent> T getEvent(String eventKey) {
+        if(eventKey == null) {
+            throw new IllegalArgumentException("");
+        }
+        if(!isWatchingFor(eventKey)) {
+            throw new IllegalArgumentException("");
+        }
         return (T) eventMap.get(eventKey);
     }
 
     public final Set<ActEvent> getEventSet(Predicate<ActEvent> eventPredicate) {
+        if(eventPredicate == null) {
+            throw new IllegalArgumentException("");
+        }
         Set<ActEvent> result = new HashSet<ActEvent>();
         for(ActEvent event : eventMap.values()) {
             if(eventPredicate.apply(event)) {
@@ -137,6 +164,9 @@ public class TimeToAct {
     }
 
     private <T extends ActEvent> T putEvent(T event, boolean autoSave, boolean overwrite) {
+        if(event == null) {
+            throw new IllegalArgumentException("");
+        }
         String key = event.getEventKey();
         if(overwrite || !isWatchingFor(key)) {
             event.onInitialize(context);

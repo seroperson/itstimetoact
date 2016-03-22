@@ -18,10 +18,15 @@ import java.util.Set;
 public class GsonTimeToAct extends InFileTimeToAct {
 
     private final static Type defaultType = new TypeToken<Set<ActEvent>>() { }.getType();
-    private final Gson gson = createGsonBuilder(new GsonBuilder()).create();
+    private final Gson gson;
 
     public GsonTimeToAct(Context context) {
         super(context);
+        GsonBuilder builder = createGsonBuilder(new GsonBuilder());
+        if(builder == null) {
+            throw new IllegalStateException("");
+        }
+        gson = builder.create();
     }
 
     @Override

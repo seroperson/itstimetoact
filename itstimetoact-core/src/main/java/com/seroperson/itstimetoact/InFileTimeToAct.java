@@ -1,8 +1,9 @@
 package com.seroperson.itstimetoact;
 
-import android.content.Context;
-
 import com.seroperson.itstimetoact.event.ActEvent;
+
+import android.content.Context;
+import android.text.TextUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +22,9 @@ public class InFileTimeToAct extends TimeToAct {
     @Override
     protected Set<ActEvent> loadEventData(Context context) {
         File storage = getStorageFile(context);
+        if(storage == null) {
+            throw new IllegalStateException("");
+        }
         if(!storage.exists()/* || isEmpty(storage)*/) {
             return new HashSet<ActEvent>();
         }
@@ -34,6 +38,9 @@ public class InFileTimeToAct extends TimeToAct {
     @Override
     protected boolean storeEventData(Collection<ActEvent> eventSet, Context context) {
         File storage = getStorageFile(context);
+        if(storage == null) {
+            throw new IllegalStateException("");
+        }
         if(!storage.exists()) {
             try {
                 storage.createNewFile();
@@ -53,7 +60,11 @@ public class InFileTimeToAct extends TimeToAct {
     }
 
     protected File getStorageFile(Context context) {
-        return new File(context.getFilesDir().getPath().concat(File.separator).concat(getFilename()));
+        String storageName = getFilename();
+        if(storageName == null || TextUtils.isEmpty(storageName)) {
+            throw new IllegalStateException("");
+        }
+        return new File(context.getFilesDir().getPath().concat(File.separator).concat(storageName));
     }
 
 }

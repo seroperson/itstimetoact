@@ -14,6 +14,9 @@ public class TimeEvent extends ActEvent implements Serializable {
 
     public TimeEvent(long targetDate, String eventKey) {
         super(eventKey);
+        if(targetDate < 0) {
+            throw new IllegalArgumentException("");
+        }
         this.targetDate = currentTimeMillis() + targetDate;
     }
 

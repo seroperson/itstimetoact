@@ -44,6 +44,9 @@ public class AfterUpdateEvent extends ActEvent implements Serializable {
     }
 
     private static int getApplicationVersion(Context context) {
+        if(context == null) {
+            throw new IllegalArgumentException("");
+        }
         PackageManager manager = context.getPackageManager();
         PackageInfo info = null;
         try {

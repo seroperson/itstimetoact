@@ -1,6 +1,7 @@
 package com.seroperson.itstimetoact.event;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import java.io.Serializable;
 
@@ -9,7 +10,7 @@ public abstract class ActEvent implements Serializable {
     private final String eventKey;
 
     public ActEvent(String eventKey) {
-        if(eventKey == null) {
+        if(eventKey == null || TextUtils.isEmpty(eventKey)) {
             throw new IllegalArgumentException("");
         }
         this.eventKey = eventKey;

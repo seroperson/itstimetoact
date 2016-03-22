@@ -13,6 +13,9 @@ public class StepEvent extends ActEvent implements Serializable {
 
     public StepEvent(int stepCount, String eventKey) {
         super(eventKey);
+        if(stepCount < 0) {
+            throw new IllegalArgumentException("");
+        }
         this.stepCount = stepCount;
         this.remainingStepCount = stepCount;
     }
@@ -31,7 +34,7 @@ public class StepEvent extends ActEvent implements Serializable {
 
     @Override
     public boolean isHappened() {
-        return getRemainingStepCount() <= 0;
+        return getRemainingStepCount() == 0;
     }
 
 }

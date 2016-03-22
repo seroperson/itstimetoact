@@ -39,7 +39,7 @@ public class SampleActivity extends AppCompatActivity {
             makeText(this, R.string.after_install_toast, LENGTH_LONG).show();
         }
 
-        TimeEvent timeEvent = timeToAct.watchEvent(new TimeEvent(TimeUnit.MINUTES.toMillis(1), delayKey));
+        TimeEvent timeEvent = timeToAct.watchEvent(new TimeEvent(TimeUnit./*DAYS*/MINUTES.toMillis(1), delayKey));
         if(timeEvent.isHappened()) {
             makeText(this, R.string.welcome_back, LENGTH_LONG).show();
         }
