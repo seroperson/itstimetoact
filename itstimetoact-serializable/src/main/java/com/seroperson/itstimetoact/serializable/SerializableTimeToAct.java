@@ -1,6 +1,7 @@
 package com.seroperson.itstimetoact.serializable;
 
 import com.seroperson.itstimetoact.InFileTimeToAct;
+import com.seroperson.itstimetoact.TimeToAct;
 import com.seroperson.itstimetoact.event.ActEvent;
 
 import android.content.Context;
@@ -10,6 +11,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * {@link TimeToAct} implementation that uses java.io serializables to serialize and deserialize events.
+ * Be careful, because there is some limitations when you use this class and it is preferable to use gson
+ * implementation (especially if you already use gson in your project or if you are using your own implementations of
+ * {@link ActEvent}). The main pros of this implementation that it hasn't any external dependencies.
+ * <a href="https://docs.oracle.com/javase/6/docs/platform/serialization/spec/serial-arch.html">Read more</a>.
+ */
 public class SerializableTimeToAct extends InFileTimeToAct {
 
     public SerializableTimeToAct(Context context) {
@@ -24,17 +32,17 @@ public class SerializableTimeToAct extends InFileTimeToAct {
             try {
                 objectInputStream = new ObjectInputStream(new FileInputStream(storage));
                 result = (Set<ActEvent>) objectInputStream.readObject();
-            } catch (FileNotFoundException e) {
+            } catch(FileNotFoundException e) {
                 // impossible
                 e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch(ClassNotFoundException e) {
                 e.printStackTrace();
             } finally {
-                if (objectInputStream != null) {
+                if(objectInputStream != null) {
                     objectInputStream.close();
                 }
             }
-        } catch (IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
         }
         return result;
@@ -50,11 +58,11 @@ public class SerializableTimeToAct extends InFileTimeToAct {
                 objectOutputStream.flush();
                 return true;
             } finally {
-                if (objectOutputStream != null) {
+                if(objectOutputStream != null) {
                     objectOutputStream.close();
                 }
             }
-        } catch (IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
         }
         return false;

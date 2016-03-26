@@ -6,26 +6,35 @@ import java.io.Serializable;
 
 import static java.lang.System.*;
 
+/** Event that happens after some time */
 public class TimeEvent extends ActEvent implements Serializable {
 
     private static final long serialVersionUID = 0L;
 
     private final long targetDate;
 
-    public TimeEvent(long targetDate, String eventKey) {
+    /**
+     * Creates object that happens after given time
+     *
+     * @param happenAfter time in mls. Must be {@code >= 0}
+     * @param eventKey    event key. Must be not empty and not null.
+     */
+    public TimeEvent(long happenAfter, String eventKey) {
         super(eventKey);
-        if(targetDate < 0) {
+        if(happenAfter < 0) {
             throw new IllegalArgumentException("targetDate < 0");
         }
-        this.targetDate = currentTimeMillis() + targetDate;
+        this.targetDate = currentTimeMillis() + happenAfter;
     }
 
+    /** Returns date in mls when event will be marked as happened. */
     public long getTargetDate() {
         return targetDate;
     }
 
+    /** Returns remaining time in mls to mark this event as happened. */
     public long getRemainingTime() {
-        return targetDate - currentTimeMillis(); // TODO switch to nanos?
+        return targetDate - currentTimeMillis(); // TODO switch to nanos everywhere?
     }
 
     @Override

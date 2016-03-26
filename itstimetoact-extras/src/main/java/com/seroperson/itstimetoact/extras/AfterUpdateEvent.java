@@ -10,6 +10,7 @@ import java.io.Serializable;
 
 import static com.seroperson.itstimetoact.Check.checkArgumentNotNull;
 
+/** Event that happens after application updated. */
 public class AfterUpdateEvent extends ActEvent implements Serializable {
 
     private static final long serialVersionUID = 0L;
@@ -17,6 +18,14 @@ public class AfterUpdateEvent extends ActEvent implements Serializable {
     private final int savedVersion;
     private transient int currentVersion;
 
+    /**
+     * Creates object and sets initial state via context.
+     *
+     * @param context  context to retrieve current application version.
+     *                 Object don't holds an link on it so there is no any memory leaks.
+     *                 Must be not null.
+     * @param eventKey event key. Must be not empty and not null.
+     */
     public AfterUpdateEvent(Context context, String eventKey) {
         this(getApplicationVersion(context), eventKey);
     }
@@ -32,10 +41,20 @@ public class AfterUpdateEvent extends ActEvent implements Serializable {
         currentVersion = getApplicationVersion(context);
     }
 
+    /**
+     * Returns current application version code
+     * It's equals {@link AfterUpdateEvent#getSavedVersion()} while {@link AfterUpdateEvent#isHappened()}
+     * returns false.
+     */
     public int getCurrentVersion() {
         return currentVersion;
     }
 
+    /**
+     * Returns previous application version code.
+     * It's equals {@link AfterUpdateEvent#getCurrentVersion()} while {@link AfterUpdateEvent#isHappened()}
+     * returns false.
+     */
     public int getSavedVersion() {
         return savedVersion;
     }
@@ -51,7 +70,7 @@ public class AfterUpdateEvent extends ActEvent implements Serializable {
         PackageInfo info = null;
         try {
             info = manager.getPackageInfo(context.getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch(PackageManager.NameNotFoundException e) {
             // impossible
         }
         return info.versionCode;
