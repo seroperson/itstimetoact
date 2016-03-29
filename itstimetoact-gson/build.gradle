@@ -8,7 +8,7 @@ android {
         minSdkVersion 1
         targetSdkVersion 23
         versionCode 1
-        versionName "0.1"
+        versionName project.ext.version
     }
 }
 
@@ -17,4 +17,14 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(":itstimetoact-core")
     compile 'com.google.code.gson:gson:2.6.2'
+}
+
+ext {
+    bintrayName = 'itstimetoact-gson'
+    libraryName = 'itstimetoact-gson'
+    artifact = 'itstimetoact-gson'
+
+    libraryDescription = 'TimeToAct implementation that uses gson library to serialize/deserialize events.'
+
+    apply from: '../bintray-push.gradle'
 }

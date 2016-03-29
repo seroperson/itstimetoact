@@ -41,7 +41,7 @@ public abstract class ActEvent implements Serializable {
     /**
      * Checks if event already happened.
      *
-     * @return {@code true} if event happened and {@link false} otherwise.
+     * @return {@code true} if event happened and {@code false} otherwise.
      */
     public abstract boolean isHappened();
 

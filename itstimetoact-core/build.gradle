@@ -8,11 +8,21 @@ android {
         minSdkVersion 1
         targetSdkVersion 23
         versionCode 1
-        versionName "0.1"
+        versionName project.ext.version
     }
 }
 
 dependencies {
     testCompile "org.robolectric:robolectric:3.0"
     testCompile 'junit:junit:4.12'
+}
+
+ext {
+    bintrayName = 'itstimetoact-core'
+    libraryName = 'itstimetoact-core'
+    artifact = 'itstimetoact-core'
+
+    libraryDescription = 'It\'s an android library, that can help you with planning events in your wonderful application.'
+
+    apply from: '../bintray-push.gradle'
 }
