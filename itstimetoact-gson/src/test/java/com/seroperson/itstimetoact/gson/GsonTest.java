@@ -13,9 +13,7 @@ import org.robolectric.annotation.Config;
 
 import android.os.Build;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = com.seroperson.itstimetoact.BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)

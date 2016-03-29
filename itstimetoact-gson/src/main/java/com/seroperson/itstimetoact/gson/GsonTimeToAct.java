@@ -26,7 +26,9 @@ import static com.seroperson.itstimetoact.Check.checkIsNull;
  */
 public class GsonTimeToAct extends InFileTimeToAct {
 
-    private final static Type defaultType = new TypeToken<Set<ActEvent>>() { }.getType();
+    private final static Type defaultType = new TypeToken<Set<ActEvent>>() {
+
+    }.getType();
     private final Gson gson;
 
     public GsonTimeToAct(Context context) {

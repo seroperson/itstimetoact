@@ -51,6 +51,7 @@ public class CoreTest {
     public void testCorrectRemovingByPredicate() {
         timeToAct.watchEvent(new AlreadyHappened(KEY));
         timeToAct.removeEvent(new Predicate<ActEvent>() {
+
             @Override
             public boolean apply(ActEvent event) {
                 return true;

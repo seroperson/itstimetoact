@@ -4,7 +4,7 @@ import com.seroperson.itstimetoact.event.ActEvent;
 
 import java.io.Serializable;
 
-import static java.lang.System.*;
+import static java.lang.System.currentTimeMillis;
 
 /** Event that happens after some time */
 public class TimeEvent extends ActEvent implements Serializable {

@@ -1,11 +1,6 @@
 package com.seroperson.itstimetoact.extras;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
-
 import com.seroperson.itstimetoact.TimeToAct;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +8,10 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.res.builder.RobolectricPackageManager;
+
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -34,7 +33,7 @@ public class ExtrasTest {
     public void testStepEvent() {
         int n = 5;
         StepEvent event = timeToAct.watchEvent(new StepEvent(n, KEY));
-        while (event.getRemainingStepCount() > 0) {
+        while(event.getRemainingStepCount() > 0) {
             assertTrue(--n == event.step());
         }
         assertTrue(event.isHappened());
