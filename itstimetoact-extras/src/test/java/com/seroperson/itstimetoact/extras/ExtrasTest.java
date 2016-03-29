@@ -17,7 +17,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = com.seroperson.itstimetoact.BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP, manifest = "src/main/AndroidManifest.xml")
 public class ExtrasTest {
 
     public static final String KEY = "key";
