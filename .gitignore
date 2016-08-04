@@ -1,4 +1,3 @@
-
 # Created by https://www.gitignore.io/api/linux,windows,osx,vim,intellij,sublimetext,android,java,gradle
 
 ### Linux ###
@@ -72,40 +71,16 @@ Session.vim
 
 
 ### Intellij ###
-# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
-
 *.iml
 
 ## Directory-based project format:
 .idea/
-# if you remove the above rule, at least ignore the following:
-
-# User-specific stuff:
-# .idea/workspace.xml
-# .idea/tasks.xml
-# .idea/dictionaries
-# .idea/shelf
-
-# Sensitive or high-churn files:
-# .idea/dataSources.ids
-# .idea/dataSources.xml
-# .idea/sqlDataSources.xml
-# .idea/dynamic.xml
-# .idea/uiDesigner.xml
-
-# Gradle:
-# .idea/gradle.xml
-# .idea/libraries
-
-# Mongo Explorer plugin:
-# .idea/mongoSettings.xml
 
 ## File-based project format:
 *.ipr
 *.iws
 
 ## Plugin-specific files:
-
 # IntelliJ
 /out/
 
@@ -130,10 +105,6 @@ fabric.properties
 
 # workspace files are user-specific
 *.sublime-workspace
-
-# project files should be checked into the repository, unless a significant
-# proportion of contributors will probably not be using SublimeText
-# *.sublime-project
 
 # sftp configuration file
 sftp-config.json
@@ -204,4 +175,3 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
-
