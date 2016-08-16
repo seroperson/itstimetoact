@@ -223,10 +223,12 @@ public class TimeToAct {
      *
      * @return event with given key.
      */
+    @SuppressWarnings("unchecked")
     public final <T extends ActEvent> T getEvent(String eventKey) {
         if(!isWatchingFor(eventKey)) {
             throw new IllegalArgumentException("There is no event with such key: " + eventKey);
         }
+
         return (T) eventMap.get(eventKey);
     }
 

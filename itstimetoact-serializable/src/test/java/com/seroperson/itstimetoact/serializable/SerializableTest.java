@@ -16,7 +16,7 @@ import java.io.Serializable;
 import static junit.framework.Assert.*;
 
 @RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP, manifest = "src/main/AndroidManifest.xml")
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 public class SerializableTest {
 
     // TODO a lot of code duplication (see GsonTest)

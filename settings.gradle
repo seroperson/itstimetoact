@@ -1,5 +1,3 @@
-include ':itstimetoact-core'
-include ':itstimetoact-extras'
-include ':itstimetoact-serializable'
-include ':itstimetoact-gson'
-include ':itstimetoact-sample'
+include(':itstimetoact-core', ':itstimetoact-extras',
+        ':itstimetoact-serializable', ':itstimetoact-gson',
+        ':itstimetoact-sample')
