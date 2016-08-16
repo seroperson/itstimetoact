@@ -1,4 +1,4 @@
-Description
+Description [![Build Status](https://travis-ci.org/seroperson/itstimetoact.svg?branch=master)](https://travis-ci.org/seroperson/itstimetoact)
 ===========
 itstimetoact - it's an android library, inspired by [once](https://github.com/jonfinerty/Once), that can help you with planning events in your awesome application. It requires *api level >= 1*, so can be used in any project.
 
@@ -74,6 +74,41 @@ if(!oneShotEvent.isHappened()) {
 
 You also can combine they together to describe more difficult situations. And as I said above, there is a flexible API, so you can implement your own awesome 'is happened' logic!
 
+Now imagine the following situation. You have 'rate me' dialog (that must appears after two days since install) with three buttons: "**Don't show again**", "**Reming me later**", "**Rate now**". With the library it can be implemented like this (example from real application):
+
+```java
+OneShotEvent neverShowClicked = timeToActInstance.watchEvent(new OneShotEvent(KEY_SHOW_RATE_ME));
+TimeEvent cycle = timeToActInstance.watchEvent(new TimeEvent(TimeUnit.DAYS.toMillis(2), KEY_SHOW_RATE_ME_CYCLE));
+if(!neverShowClicked.isHappened() && cycle.isHappened()) {
+    // ...
+    // some dialog creation logic
+    // ...
+    dialog.show(new DialogListener() {
+        @Override
+        protected void onViewCreated(View view) {
+            applyListener(view, R.id.rate_no, this::dontShowAgain);
+            applyListener(view, R.id.rate_later, () -> timeToActInstance.watchLastDropped(KEY_SHOW_RATE_ME_CYCLE));
+            applyListener(view, R.id.rate_yes, () -> {
+                openMarketPage();
+                dontShowAgain();
+            });
+        }
+
+        private void dontShowAgain() {
+            neverShowClicked.step();
+        }
+
+        private void applyListener(View view, int id, Runnable runnable) {
+            view.findViewById(id).setOnClickListener(v -> {
+                runnable.run();
+                hideDialog();
+            });
+        }
+    });
+}
+```
+
+
 Working with sources
 ========
 To assemble all of available targets:
@@ -85,7 +120,7 @@ To assemble all of available targets:
 Or the following to run tests:
 
 ```sh
-./gradlew tests
+./gradlew test
 ```
 
 Pull requests are welcome.
@@ -117,4 +152,3 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
-
