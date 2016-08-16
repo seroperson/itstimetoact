@@ -16,7 +16,7 @@ install {
             project {
                 packaging 'aar'
                 groupId 'com.seroperson.itstimetoact'
-                artifactId artifact
+                artifactId libraryName
 
                 name libraryName
                 description libraryDescription
@@ -81,7 +81,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = 'maven'
-        name = bintrayName
+        name = libraryName
         desc = libraryDescription
         websiteUrl = siteUrl
         vcsUrl = gitUrl

@@ -17,4 +17,22 @@ allprojects {
 
 subprojects {
     ext.version = "0.1"
+    if(name != "itstimetoact-sample") {
+        apply plugin: 'com.android.library'
+        android.defaultConfig.minSdkVersion 1
+        dependencies.testCompile(["org.robolectric:robolectric:3.1.1", "junit:junit:4.12"])
+    }
+    else {
+        apply plugin: 'com.android.application'
+        android.defaultConfig.minSdkVersion 9
+    }
+    android {
+        compileSdkVersion 23
+        buildToolsVersion "23.0.3"
+        defaultConfig {
+            targetSdkVersion 23
+            versionCode 1
+            versionName project.ext.version
+        }
+    }
 }

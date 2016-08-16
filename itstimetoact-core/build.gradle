@@ -1,27 +1,5 @@
-apply plugin: 'com.android.library'
-
-android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
-
-    defaultConfig {
-        minSdkVersion 1
-        targetSdkVersion 23
-        versionCode 1
-        versionName project.ext.version
-    }
-}
-
-dependencies {
-    testCompile "org.robolectric:robolectric:3.1.1"
-    testCompile 'junit:junit:4.12'
-}
-
 ext {
-    bintrayName = 'itstimetoact-core'
     libraryName = 'itstimetoact-core'
-    artifact = 'itstimetoact-core'
-
     libraryDescription = 'It\'s an android library, that can help you with planning events in your wonderful application.'
 
     apply from: '../bintray-push.gradle'

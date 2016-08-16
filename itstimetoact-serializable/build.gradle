@@ -1,28 +1,7 @@
-apply plugin: 'com.android.library'
-
-android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
-
-    defaultConfig {
-        minSdkVersion 1
-        targetSdkVersion 23
-        versionCode 1
-        versionName project.ext.version
-    }
-}
-
-dependencies {
-    testCompile "org.robolectric:robolectric:3.1.1"
-    testCompile 'junit:junit:4.12'
-    compile project(":itstimetoact-core")
-}
+dependencies.compile project(":itstimetoact-core")
 
 ext {
-    bintrayName = 'itstimetoact-serializable'
     libraryName = 'itstimetoact-serializable'
-    artifact = 'itstimetoact-serializable'
-
     libraryDescription = 'TimeToAct implementation that uses java.io serializables to serialize/deserialize events. The main pros of this module that it hasn\'t any external dependencies.'
 
     apply from: '../bintray-push.gradle'
