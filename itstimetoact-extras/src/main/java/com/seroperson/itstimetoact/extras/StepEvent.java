@@ -2,6 +2,7 @@ package com.seroperson.itstimetoact.extras;
 
 import com.seroperson.itstimetoact.event.ActEvent;
 
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
@@ -24,11 +25,8 @@ public class StepEvent extends ActEvent implements Serializable {
      *                  Must be {@code >= 0}.
      * @param eventKey  event key. Must be not null.
      */
-    public StepEvent(int stepCount, @NonNull String eventKey) {
+    public StepEvent(@IntRange(from = 0) int stepCount, @NonNull String eventKey) {
         super(eventKey);
-        if(stepCount < 0) {
-            throw new IllegalArgumentException("stepCount < 0");
-        }
         this.stepCount = stepCount;
         this.remainingStepCount = stepCount;
     }
