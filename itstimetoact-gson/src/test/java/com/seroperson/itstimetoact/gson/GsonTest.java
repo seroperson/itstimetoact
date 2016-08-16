@@ -12,6 +12,7 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.os.Build;
+import android.support.annotation.NonNull;
 
 import static junit.framework.Assert.*;
 
@@ -21,7 +22,7 @@ public class GsonTest {
 
     // TODO a lot of code duplication (see SerializableTest)
 
-    public static final String KEY = "key";
+    private static final String KEY = "key";
 
     private TimeToAct timeToAct;
 
@@ -30,7 +31,8 @@ public class GsonTest {
         timeToAct = new GsonTimeToAct(RuntimeEnvironment.application) {
 
             @Override
-            protected GsonBuilder createGsonBuilder(GsonBuilder gsonBuilder) {
+            @NonNull
+            protected GsonBuilder createGsonBuilder(@NonNull GsonBuilder gsonBuilder) {
                 return super.createGsonBuilder(gsonBuilder)
                             .registerTypeAdapterFactory(RuntimeTypeAdapterFactory.of(ActEvent.class)
                                                                                  .registerSubtype(TestEvent.class)

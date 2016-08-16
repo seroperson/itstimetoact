@@ -3,10 +3,9 @@ package com.seroperson.itstimetoact.event;
 import com.seroperson.itstimetoact.TimeToAct;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
-
-import static com.seroperson.itstimetoact.Check.checkArgumentNotEmpty;
 
 /**
  * Base class for all events.
@@ -22,10 +21,9 @@ public abstract class ActEvent implements Serializable {
     /**
      * Creates instance with given key.
      *
-     * @param eventKey event key. Must be not empty and not null.
+     * @param eventKey event key. Must be not null.
      */
-    public ActEvent(String eventKey) {
-        checkArgumentNotEmpty(eventKey, "eventKey is empty or null");
+    public ActEvent(@NonNull String eventKey) {
         this.eventKey = eventKey;
     }
 
@@ -34,7 +32,7 @@ public abstract class ActEvent implements Serializable {
      *
      * @param context context from {@link TimeToAct}
      */
-    public void onInitialize(Context context) {
+    public void onInitialize(@NonNull Context context) {
 
     }
 
@@ -50,7 +48,8 @@ public abstract class ActEvent implements Serializable {
      *
      * @return key that given in constructor.
      */
-    public String getEventKey() {
+    @NonNull
+    public final String getEventKey() {
         return eventKey;
     }
 

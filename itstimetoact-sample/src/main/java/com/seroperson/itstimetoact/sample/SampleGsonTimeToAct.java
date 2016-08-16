@@ -10,15 +10,17 @@ import com.seroperson.itstimetoact.extras.TimeEvent;
 import com.seroperson.itstimetoact.gson.GsonTimeToAct;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 public class SampleGsonTimeToAct extends GsonTimeToAct {
 
-    public SampleGsonTimeToAct(Context context) {
+    public SampleGsonTimeToAct(@NonNull Context context) {
         super(context);
     }
 
     @Override
-    protected GsonBuilder createGsonBuilder(GsonBuilder gsonBuilder) {
+    @NonNull
+    protected GsonBuilder createGsonBuilder(@NonNull GsonBuilder gsonBuilder) {
         return super.createGsonBuilder(gsonBuilder)
                     .registerTypeAdapterFactory(RuntimeTypeAdapterFactory.of(ActEvent.class)
                                                                          .registerSubtype(AfterUpdateEvent.class)

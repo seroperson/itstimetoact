@@ -5,6 +5,7 @@ import com.seroperson.itstimetoact.TimeToAct;
 import com.seroperson.itstimetoact.event.ActEvent;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.io.*;
 import java.util.Collection;
@@ -20,12 +21,14 @@ import java.util.Set;
  */
 public class SerializableTimeToAct extends InFileTimeToAct {
 
-    public SerializableTimeToAct(Context context) {
+    public SerializableTimeToAct(@NonNull Context context) {
         super(context);
     }
 
     @Override
-    protected Set<ActEvent> loadEventData(File storage) {
+    @SuppressWarnings("unchecked")
+    @NonNull
+    protected Set<ActEvent> loadEventData(@NonNull File storage) {
         Set<ActEvent> result = new HashSet<ActEvent>();
         ObjectInputStream objectInputStream = null;
         try {
@@ -49,7 +52,7 @@ public class SerializableTimeToAct extends InFileTimeToAct {
     }
 
     @Override
-    protected boolean storeEventData(Collection<ActEvent> eventSet, File storage) {
+    protected boolean storeEventData(@NonNull Collection<ActEvent> eventSet, @NonNull File storage) {
         ObjectOutputStream objectOutputStream = null;
         try {
             try {

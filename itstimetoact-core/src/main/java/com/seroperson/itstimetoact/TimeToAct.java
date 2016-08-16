@@ -4,10 +4,9 @@ import com.android.internal.util.Predicate;
 import com.seroperson.itstimetoact.event.ActEvent;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.*;
-
-import static com.seroperson.itstimetoact.Check.*;
 
 /**
  * The base class that manages, performs serialization and deserialization, provides access and resolves
@@ -31,8 +30,7 @@ public class TimeToAct {
      *                Object holds link on this context, so be aware about leaks.
      *                Must be not null.
      */
-    public TimeToAct(Context context) {
-        checkArgumentNotNull(context, "context == null");
+    public TimeToAct(@NonNull Context context) {
         this.context = context;
     }
 
@@ -44,12 +42,7 @@ public class TimeToAct {
      */
     public final void loadEventData() {
         clear();
-
-        Set<ActEvent> loadedSet = loadEventData(context);
-        if(checkIsNull(loadedSet)) {
-            throw new IllegalStateException("TimeToAct#loadEventData(Context) returned null");
-        }
-        for(ActEvent event : loadedSet) {
+        for(ActEvent event : loadEventData(context)) {
             putEvent(event, false);
         }
     }
@@ -82,7 +75,8 @@ public class TimeToAct {
      * @return the result of calling {@link TimeToAct#getEvent(String)} with key of given event. Respectively it will be
      * given argument or event with same key if it was here before.
      */
-    public final <T extends ActEvent> T watchEvent(T event) {
+    @NonNull
+    public final <T extends ActEvent> T watchEvent(@NonNull T event) {
         return putEvent(event, false);
     }
 
@@ -93,10 +87,9 @@ public class TimeToAct {
      * Changes will be saved when {@link TimeToAct#storeEventData()} will be called.
      *
      * @param key the key of event that don't saved in memory after {@link TimeToAct#watchEvent(ActEvent)} call.
-     *            Must be not empty and not null.
+     *            Must be not null.
      */
-    public final void watchLastDropped(String key) {
-        checkArgumentNotEmpty(key, "key is empty or null");
+    public final void watchLastDropped(@NonNull String key) {
         if(lastDropped == null) {
             throw new IllegalStateException("There is nothing to watch");
         }
@@ -121,7 +114,8 @@ public class TimeToAct {
      *
      * @return given argument.
      */
-    public final <T extends ActEvent> T forceWatchEvent(T event) {
+    @NonNull
+    public final <T extends ActEvent> T forceWatchEvent(@NonNull T event) {
         return putEvent(event, true);
     }
 
@@ -131,8 +125,7 @@ public class TimeToAct {
      *
      * @param eventPredicate predicate to filter events. Must be not null.
      */
-    public final void removeEvent(Predicate<ActEvent> eventPredicate) {
-        checkArgumentNotNull(eventPredicate, "eventPredicate == null");
+    public final void removeEvent(@NonNull Predicate<ActEvent> eventPredicate) {
         for(ActEvent event : eventMap.values()) {
             if(eventPredicate.apply(event)) {
                 removeEvent(event);
@@ -148,8 +141,7 @@ public class TimeToAct {
      *              there is no such event i.e {@link TimeToAct#isWatchingFor(ActEvent)} returns {@code false}.
      *              Must be not null.
      */
-    public final void removeEvent(ActEvent event) {
-        checkArgumentNotNull(event, "event == null");
+    public final void removeEvent(@NonNull ActEvent event) {
         removeEvent(event.getEventKey());
     }
 
@@ -159,9 +151,9 @@ public class TimeToAct {
      *
      * @param eventKey key which will be used to find the event to remove. Throws an exception if there is no
      *                 such event i.e {@link TimeToAct#isWatchingFor(ActEvent)} returns {@code false}.
-     *                 Must be not empty and not null.
+     *                 Must be not null.
      */
-    public final void removeEvent(String eventKey) {
+    public final void removeEvent(@NonNull String eventKey) {
         if(!isWatchingFor(eventKey)) {
             throw new IllegalArgumentException("There is no event with such key: " + eventKey);
         }
@@ -183,20 +175,18 @@ public class TimeToAct {
      *
      * @return {@code false} if there is no such event and {@code true} otherwise.
      */
-    public final boolean isWatchingFor(ActEvent event) {
-        checkArgumentNotNull(event, "event == null");
+    public final boolean isWatchingFor(@NonNull ActEvent event) {
         return isWatchingFor(event.getEventKey());
     }
 
     /**
      * Checks for the event with given key.
      *
-     * @param eventKey key to check. Must be not empty and not null.
+     * @param eventKey key to check. Must be not null.
      *
      * @return {@code false} if there is no such event and {@code true} otherwise.
      */
-    public final boolean isWatchingFor(String eventKey) {
-        checkArgumentNotEmpty(eventKey, "eventKey is empty or null");
+    public final boolean isWatchingFor(@NonNull String eventKey) {
         return eventMap.containsKey(eventKey);
     }
 
@@ -205,11 +195,11 @@ public class TimeToAct {
      *
      * @param eventKey key to check. Throws an exception if there is no event with such
      *                 key i.e {@link TimeToAct#isWatchingFor(String)} returns {@code false}.
-     *                 Must be not empty and not null.
+     *                 Must be not null.
      *
      * @return {@code true} if event with given key already happened and {@code false} otherwise.
      */
-    public final boolean isHappened(String eventKey) {
+    public final boolean isHappened(@NonNull String eventKey) {
         return getEvent(eventKey).isHappened();
     }
 
@@ -218,17 +208,17 @@ public class TimeToAct {
      *
      * @param eventKey key to search for the event. Throws an exception if there is no event with such
      *                 key i.e {@link TimeToAct#isWatchingFor(String)} returns {@code false}.
-     *                 Must be not empty and not null.
+     *                 Must be and not null.
      * @param <T>      event with given key will be casted to this type.
      *
      * @return event with given key.
      */
     @SuppressWarnings("unchecked")
-    public final <T extends ActEvent> T getEvent(String eventKey) {
+    @NonNull
+    public final <T extends ActEvent> T getEvent(@NonNull String eventKey) {
         if(!isWatchingFor(eventKey)) {
             throw new IllegalArgumentException("There is no event with such key: " + eventKey);
         }
-
         return (T) eventMap.get(eventKey);
     }
 
@@ -239,8 +229,8 @@ public class TimeToAct {
      *
      * @return set of events filtered by given predicate.
      */
-    public final Set<ActEvent> getEventSet(Predicate<ActEvent> eventPredicate) {
-        checkArgumentNotNull(eventPredicate, "eventPredicate == null");
+    @NonNull
+    public final Set<ActEvent> getEventSet(@NonNull Predicate<ActEvent> eventPredicate) {
         Set<ActEvent> result = new HashSet<ActEvent>();
         for(ActEvent event : eventMap.values()) {
             if(eventPredicate.apply(event)) {
@@ -250,8 +240,7 @@ public class TimeToAct {
         return result;
     }
 
-    private <T extends ActEvent> T putEvent(T event, boolean overwrite) {
-        checkArgumentNotNull(event, "event == null");
+    private <T extends ActEvent> T putEvent(@NonNull T event, boolean overwrite) {
         String key = event.getEventKey();
         if(overwrite || !isWatchingFor(key)) {
             event.onInitialize(context);
@@ -270,7 +259,8 @@ public class TimeToAct {
      *
      * @return the set of deserialized events.
      */
-    protected Set<ActEvent> loadEventData(Context context) {
+    @NonNull
+    protected Set<ActEvent> loadEventData(@NonNull Context context) {
         throw new UnsupportedOperationException();
     }
 
@@ -282,7 +272,7 @@ public class TimeToAct {
      *
      * @return {@code true} if serialization finished successfully, {@code false} otherwise.
      */
-    protected boolean storeEventData(Collection<ActEvent> eventSet, Context context) {
+    protected boolean storeEventData(@NonNull Collection<ActEvent> eventSet, @NonNull Context context) {
         throw new UnsupportedOperationException();
     }
 

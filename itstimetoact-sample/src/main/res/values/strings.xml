@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">itstimetoact-sample</string>
     <string name="after_install_toast">First launch ever</string>
-    <string name="after_update_toast">First launch after update from %1$s to %2$s</string>
+    <string name="after_update_toast">First launch after update from %1$d to %2$d</string>
     <string name="welcome_back">Welcome back after a long delay!</string>
     <string name="clicked_n_times">Clicked %1$d times</string>
     <string name="click_happened">Event happened!</string>

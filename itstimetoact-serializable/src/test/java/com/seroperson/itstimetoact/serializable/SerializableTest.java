@@ -21,7 +21,7 @@ public class SerializableTest {
 
     // TODO a lot of code duplication (see GsonTest)
 
-    public static final String KEY = "key";
+    private static final String KEY = "key";
 
     private TimeToAct timeToAct;
 

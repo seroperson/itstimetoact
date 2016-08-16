@@ -2,6 +2,8 @@ package com.seroperson.itstimetoact.extras;
 
 import com.seroperson.itstimetoact.event.ActEvent;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 import static java.lang.System.currentTimeMillis;
@@ -17,9 +19,9 @@ public class TimeEvent extends ActEvent implements Serializable {
      * Creates object that happens after given time
      *
      * @param happenAfter time in mls. Must be {@code >= 0}
-     * @param eventKey    event key. Must be not empty and not null.
+     * @param eventKey    event key. Must be not null.
      */
-    public TimeEvent(long happenAfter, String eventKey) {
+    public TimeEvent(long happenAfter, @NonNull String eventKey) {
         super(eventKey);
         if(happenAfter < 0) {
             throw new IllegalArgumentException("targetDate < 0");

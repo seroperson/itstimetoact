@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 public class ExtrasTest {
 
-    public static final String KEY = "key";
+    private static final String KEY = "key";
 
     private TimeToAct timeToAct;
 

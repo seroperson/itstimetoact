@@ -5,10 +5,9 @@ import com.seroperson.itstimetoact.event.ActEvent;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
-
-import static com.seroperson.itstimetoact.Check.checkArgumentNotNull;
 
 /** Event that happens after application updated. */
 public class AfterUpdateEvent extends ActEvent implements Serializable {
@@ -24,19 +23,19 @@ public class AfterUpdateEvent extends ActEvent implements Serializable {
      * @param context  context to retrieve current application version.
      *                 Object don't holds an link on it so there is no any memory leaks.
      *                 Must be not null.
-     * @param eventKey event key. Must be not empty and not null.
+     * @param eventKey event key. Must be not null.
      */
-    public AfterUpdateEvent(Context context, String eventKey) {
+    public AfterUpdateEvent(@NonNull Context context, @NonNull String eventKey) {
         this(getApplicationVersion(context), eventKey);
     }
 
-    private AfterUpdateEvent(int savedVersion, String eventKey) {
+    private AfterUpdateEvent(int savedVersion, @NonNull String eventKey) {
         super(eventKey);
         this.savedVersion = savedVersion;
     }
 
     @Override
-    public void onInitialize(Context context) {
+    public void onInitialize(@NonNull Context context) {
         super.onInitialize(context);
         currentVersion = getApplicationVersion(context);
     }
@@ -65,13 +64,12 @@ public class AfterUpdateEvent extends ActEvent implements Serializable {
     }
 
     private static int getApplicationVersion(Context context) {
-        checkArgumentNotNull(context, "context == null");
         PackageManager manager = context.getPackageManager();
-        PackageInfo info = null;
+        PackageInfo info;
         try {
             info = manager.getPackageInfo(context.getPackageName(), 0);
         } catch(PackageManager.NameNotFoundException e) {
-            // impossible
+            return 1; // impossible
         }
         return info.versionCode;
     }

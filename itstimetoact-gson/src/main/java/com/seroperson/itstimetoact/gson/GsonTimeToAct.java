@@ -10,14 +10,13 @@ import com.seroperson.itstimetoact.TimeToAct;
 import com.seroperson.itstimetoact.event.ActEvent;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import static com.seroperson.itstimetoact.Check.checkIsNull;
 
 /**
  * {@link TimeToAct} implementations that uses gson to serialize/deserialize events to/from json format.
@@ -26,22 +25,17 @@ import static com.seroperson.itstimetoact.Check.checkIsNull;
  */
 public class GsonTimeToAct extends InFileTimeToAct {
 
-    private final static Type defaultType = new TypeToken<Set<ActEvent>>() {
-
-    }.getType();
+    private final static Type defaultType = new TypeToken<Set<ActEvent>>() { }.getType();
     private final Gson gson;
 
-    public GsonTimeToAct(Context context) {
+    public GsonTimeToAct(@NonNull Context context) {
         super(context);
-        GsonBuilder builder = createGsonBuilder(new GsonBuilder());
-        if(checkIsNull(builder)) {
-            throw new IllegalStateException("GsonTimeToAct#createGsonBuilder returned null");
-        }
-        gson = builder.create();
+        gson = createGsonBuilder(new GsonBuilder()).create();
     }
 
     @Override
-    protected Set<ActEvent> loadEventData(File storage) {
+    @NonNull
+    protected Set<ActEvent> loadEventData(@NonNull File storage) {
         FileReader reader = null;
         try {
             try {
@@ -62,7 +56,7 @@ public class GsonTimeToAct extends InFileTimeToAct {
     }
 
     @Override
-    protected boolean storeEventData(Collection<ActEvent> eventSet, File storage) {
+    protected boolean storeEventData(@NonNull Collection<ActEvent> eventSet, @NonNull File storage) {
         JsonWriter writer = null;
         try {
             try {
@@ -89,7 +83,8 @@ public class GsonTimeToAct extends InFileTimeToAct {
      *
      * @return your custom gson builder. Must be not null.
      */
-    protected GsonBuilder createGsonBuilder(GsonBuilder gsonBuilder) {
+    @NonNull
+    protected GsonBuilder createGsonBuilder(@NonNull GsonBuilder gsonBuilder) {
         return gsonBuilder;
     }
 
