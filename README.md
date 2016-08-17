@@ -97,13 +97,6 @@ if(!neverShowClicked.isHappened() && cycle.isHappened()) {
         private void dontShowAgain() {
             neverShowClicked.step();
         }
-
-        private void applyListener(View view, int id, Runnable runnable) {
-            view.findViewById(id).setOnClickListener(v -> {
-                runnable.run();
-                hideDialog();
-            });
-        }
     });
 }
 ```
@@ -130,10 +123,10 @@ Download
 Just include required line in your **build.gradle**
 
 ```groovy
-compile 'com.seroperson.itstimetoact:itstimetoact-core:0.1'
-compile 'com.seroperson.itstimetoact:itstimetoact-serializable:0.1'
-compile 'com.seroperson.itstimetoact:itstimetoact-gson:0.1'
-compile 'com.seroperson.itstimetoact:itstimetoact-extras:0.1'
+compile 'com.seroperson.itstimetoact:itstimetoact-core:0.2'
+compile 'com.seroperson.itstimetoact:itstimetoact-serializable:0.2'
+compile 'com.seroperson.itstimetoact:itstimetoact-gson:0.2'
+compile 'com.seroperson.itstimetoact:itstimetoact-extras:0.2'
 ```
 
 Be sure that you included `jcenter()` in list of your repositories.
