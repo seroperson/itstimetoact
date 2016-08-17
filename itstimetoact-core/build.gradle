@@ -1,6 +1,6 @@
 ext {
     libraryName = 'itstimetoact-core'
     libraryDescription = 'It\'s an android library, that can help you with planning events in your wonderful application.'
-
-    apply from: '../bintray-push.gradle'
 }
+
+apply from: '../bintray-push.gradle'

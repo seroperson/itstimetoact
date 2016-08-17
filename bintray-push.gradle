@@ -1,4 +1,4 @@
-File local = file('local.properties')
+File local = rootProject.file('local.properties')
 if(!local.exists()) {
     return
 }
@@ -6,63 +6,51 @@ if(!local.exists()) {
 apply plugin: 'com.github.dcendents.android-maven'
 
 ext {
-    siteUrl = 'https://github.com/seroperson/itstimetoact'
     gitUrl = 'https://github.com/seroperson/itstimetoact.git'
+    siteUrl = 'https://github.com/seroperson/itstimetoact'
 }
 
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'aar'
-                groupId 'com.seroperson.itstimetoact'
-                artifactId libraryName
+install.repositories.mavenInstaller.pom.project {
+    packaging 'aar'
+    groupId project.group
+    artifactId libraryName
 
-                name libraryName
-                description libraryDescription
-                url siteUrl
+    name libraryName
+    description libraryDescription
+    version project.version
+    url siteUrl
 
-                licenses {
-                    license {
-                        name 'The MIT License'
-                        url 'https://opensource.org/licenses/MIT'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'seroperson'
-                        name 'Daniil Sivak'
-                        email 'seroperson@gmail.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-                }
-            }
+    licenses {
+        license {
+            name 'The MIT License'
+            url 'https://opensource.org/licenses/MIT'
+        }
+    }
+    developers {
+        developer {
+            id 'seroperson'
+            name 'Daniil Sivak'
+            email 'seroperson@gmail.com'
         }
     }
 }
 
 apply plugin: 'com.jfrog.bintray'
 
-version = project.ext.version
 
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
     from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
 }
 
 task javadoc(type: Javadoc) {
-    failOnError = false
-    source = android.sourceSets.main.java.srcDirs
+    failOnError false
+    source android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += configurations.compile
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    classifier 'javadoc'
     from javadoc.destinationDir
 }
 
@@ -86,10 +74,7 @@ bintray {
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["MIT"]
-        publish = false
+        publish false
         publicDownloadNumbers = true
-        version {
-            desc = libraryDescription
-        }
     }
 }

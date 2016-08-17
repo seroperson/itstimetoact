@@ -3,6 +3,6 @@ dependencies.compile project(":itstimetoact-core")
 ext {
     libraryName = 'itstimetoact-extras'
     libraryDescription = 'The set of some useful event implementations.'
-
-    apply from: '../bintray-push.gradle'
 }
+
+apply from: '../bintray-push.gradle'

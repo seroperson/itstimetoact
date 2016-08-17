@@ -3,6 +3,6 @@ dependencies.compile project(":itstimetoact-core")
 ext {
     libraryName = 'itstimetoact-serializable'
     libraryDescription = 'TimeToAct implementation that uses java.io serializables to serialize/deserialize events. The main pros of this module that it hasn\'t any external dependencies.'
-
-    apply from: '../bintray-push.gradle'
 }
+
+apply from: '../bintray-push.gradle'

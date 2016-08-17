@@ -16,7 +16,8 @@ allprojects {
 }
 
 subprojects {
-    ext.version = "0.1"
+    version "0.1"
+    group 'com.seroperson.itstimetoact'
     if(name != "itstimetoact-sample") {
         apply plugin: 'com.android.library'
         android.defaultConfig.minSdkVersion 1
@@ -35,7 +36,7 @@ subprojects {
         defaultConfig {
             targetSdkVersion 23
             versionCode 1
-            versionName project.ext.version
+            versionName version
         }
     }
 }

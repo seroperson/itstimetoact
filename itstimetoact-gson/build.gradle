@@ -3,6 +3,6 @@ dependencies.compile([project(":itstimetoact-core"), 'com.google.code.gson:gson:
 ext {
     libraryName = 'itstimetoact-gson'
     libraryDescription = 'TimeToAct implementation that uses gson library to serialize/deserialize events.'
-
-    apply from: '../bintray-push.gradle'
 }
+
+apply from: '../bintray-push.gradle'
