@@ -42,8 +42,8 @@ public class SampleActivity extends AppCompatActivity {
         TimeEvent timeEvent = timeToAct.watchEvent(new TimeEvent(TimeUnit./*DAYS*/MINUTES.toMillis(1), delayKey));
         if(timeEvent.isHappened()) {
             makeText(this, R.string.welcome_back, LENGTH_LONG).show();
+            timeToAct.watchLastDropped(delayKey);
         }
-        timeToAct.watchLastDropped(delayKey);
 
         AfterUpdateEvent afterUpdate = timeToAct.watchEvent(new AfterUpdateEvent(this, afterUpdateKey));
         if(afterUpdate.isHappened()) {
