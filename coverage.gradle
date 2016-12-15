@@ -1,0 +1,33 @@
+apply plugin: 'jacoco'
+jacoco {
+    toolVersion = '0.7.8'
+}
+android {
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+}
+task jacocoTestReport(type: JacocoReport) {
+    def buildDir = project.buildDir
+    group = 'Reporting'
+    description = 'Generate Jacoco coverage reports'
+    sourceDirectories = files('src/main/java')
+    classDirectories = fileTree(dir: "$buildDir/intermediates/classes/debug",
+        excludes: ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*' ])
+    executionData = files("$buildDir/jacoco/testDebugUnitTest.exec")
+    reports {
+        xml {
+            enabled = true
+            destination = "$buildDir/reports/jacoco/xml/report.xml"
+        }
+        csv.enabled false
+        html {
+            enabled = true
+            destination = "$buildDir/reports/jacoco/html/"
+        }
+    }
+}
