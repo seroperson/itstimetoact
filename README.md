@@ -1,4 +1,4 @@
-Description [![Build Status](https://travis-ci.org/seroperson/itstimetoact.svg?branch=master)](https://travis-ci.org/seroperson/itstimetoact)
+Description [![Build Status](https://travis-ci.org/seroperson/itstimetoact.svg?branch=master)](https://travis-ci.org/seroperson/itstimetoact) [![Coverage Status](https://coveralls.io/repos/github/seroperson/itstimetoact/badge.svg?branch=master)](https://coveralls.io/github/seroperson/itstimetoact?branch=master)
 ===========
 itstimetoact - it's an android library, inspired by [once](https://github.com/jonfinerty/Once), that can help you with planning events in your awesome application. It requires *api level >= 1*, so can be used in any project.
 
