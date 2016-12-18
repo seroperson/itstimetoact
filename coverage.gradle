@@ -12,13 +12,13 @@ android {
     }
 }
 task jacocoTestReport(type: JacocoReport) {
-    def buildDir = project.buildDir
     group = 'Reporting'
     description = 'Generate Jacoco coverage reports'
-    sourceDirectories = files('src/main/java')
-    classDirectories = fileTree(dir: "$buildDir/intermediates/classes/debug",
-        excludes: ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*' ])
+
+    sourceDirectories = files(android.sourceSets.main.javaDirectories)
+    classDirectories = fileTree(dir: "$buildDir/intermediates/classes/debug", excludes: ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*' ])
     executionData = files("$buildDir/jacoco/testDebugUnitTest.exec")
+
     reports {
         xml {
             enabled = true
@@ -30,4 +30,6 @@ task jacocoTestReport(type: JacocoReport) {
             destination = "$buildDir/reports/jacoco/html/"
         }
     }
+
+    dependsOn('test')
 }

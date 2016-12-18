@@ -6,6 +6,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.2.3'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.7.1'
     }
 }
 
@@ -44,4 +45,38 @@ subprojects {
             abortOnError false
         }
     }
+}
+
+apply plugin: 'jacoco'
+
+def publishedProjects = subprojects.findAll { it.name != 'itstimetoact-sample' }
+task jacocoRootReport(type: JacocoReport) {
+    group = 'Reporting'
+    description = 'Generates an aggregate report from all subprojects'
+
+    sourceDirectories = files(publishedProjects.android.sourceSets.main.javaDirectories)
+    classDirectories = files(publishedProjects.buildDir.collect { "$it/intermediates/classes/debug/" })
+    executionData = files(publishedProjects.jacocoTestReport.executionData)
+
+    reports {
+        html.enabled = true
+        xml.enabled = true
+    }
+
+    publishedProjects.collect { dependsOn("${it.path}:test")}
+}
+
+apply plugin: 'com.github.kt3k.coveralls'
+
+coveralls {
+    sourceDirs = publishedProjects.android.sourceSets.main.javaDirectories.flatten()
+    jacocoReportPath = "$buildDir/reports/jacoco/jacocoRootReport/jacocoRootReport.xml"
+}
+
+tasks.coveralls {
+    group = 'Coverage reports'
+    description = 'Uploads the aggregated coverage report to Coveralls'
+
+    dependsOn jacocoRootReport
+    onlyIf { System.env.'CI' }
 }
